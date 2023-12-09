@@ -40,6 +40,7 @@ kubectl apply -f ./development-pv/persistent-volume-mongo-file.yaml
 
 ## creating secrets
 kubectl create secret generic mongo-resume-password --from-literal=password=<YOUR_PASSWORD> -n=development
+kubectl create secret generic jwt-secret --from-literal=secret=<YOUR_SECRET> -n=development
 
 ## creating argocd applications
 kubectl apply -f ./argocd.develop.yaml

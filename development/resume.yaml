@@ -24,6 +24,11 @@ spec:
             secretKeyRef:
               name: mongo-resume-password
               key: password
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: jwt-secret
+              key: secret
         - name: MONGO_URL
           value: mongodb://root:$(MONGODB_PASSWORD)@mongo-resume-service:27017/?authMechanism=DEFAULT
         envFrom:
