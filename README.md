@@ -34,7 +34,14 @@ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/st
 kubectl create namespace development
 kubectl create namespace staging
 kubectl create namespace production
+
+# Creating persistance volume for each environment
+kubectl apply -f ./development-pv/persistent-volume-mongo-file.yaml
+
+## creating secrets
+kub create secret generic mongo-resume-password --from-literal=password=<YOUR_PASSWORD> -n=development
 ```
+
 
 ## Folder Structure
 The project follows a structured organization for different environments:
