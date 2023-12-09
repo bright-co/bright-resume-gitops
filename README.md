@@ -39,7 +39,10 @@ kubectl create namespace production
 kubectl apply -f ./development-pv/persistent-volume-mongo-file.yaml
 
 ## creating secrets
-kub create secret generic mongo-resume-password --from-literal=password=<YOUR_PASSWORD> -n=development
+kubectl create secret generic mongo-resume-password --from-literal=password=<YOUR_PASSWORD> -n=development
+
+## creating argocd applications
+kubectl apply -f ./argocd.develop.yaml
 ```
 
 

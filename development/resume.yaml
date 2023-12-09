@@ -24,7 +24,7 @@ spec:
             secretKeyRef:
               name: mongo-resume-password
               key: password
-        - name: DATABASE_URL
+        - name: MONGO_URL
           value: mongodb://root:$(MONGODB_PASSWORD)@mongo-resume-service:27017/?authMechanism=DEFAULT
         envFrom:
         - configMapRef:
