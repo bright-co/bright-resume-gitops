@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mongo-file
+  namespace: development
+spec:
+  serviceName: mongo-file-service-headless
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongo-file
+  template:
+    metadata:
+      labels:
+        app: mongo-file
+    spec:
+      containers:
+      - name: mongo-file
+        image: mongo:latest
+        ports:
+        - containerPort: 27017
+          name: mongo
+        volumeMounts:
+        - name: mongo-file-data
+          mountPath: /data/db
+        env:
+        - name: MONGO_INITDB_ROOT_USERNAME
+          value: root
+        - name: MONGO_INITDB_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mongo-file-password
+              key: password
+      volumes:
+      - name: mongo-file-data
+        persistentVolumeClaim:
+          claimName: mongo-file-data-pvc
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mongo-file-data-pvc
+  namespace: development
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 3Gi
+  volumeName: mongo-file-pv-development
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo-file-service
+  namespace: development
+spec:
+  selector:
+    app: mongo-file
+  ports:
+    - protocol: TCP
+      port: 27017
+      targetPort: 27017
+  clusterIP: None
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo-file-service-headless
+  namespace: development
+spec:
+  selector:
+    app: mongo-file
+  ports:
+    - protocol: TCP
+      port: 27017
+      targetPort: 27017
+  clusterIP: None
