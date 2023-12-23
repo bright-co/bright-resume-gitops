@@ -35,7 +35,7 @@ spec:
               name: jwt-secret
               key: secret
         - name: MONGO_URL
-          value: mongodb://root:$(MONGODB_PASSWORD)@mongo-file-service:27017/?fileMechanism=DEFAULT
+          value: mongodb://root:$(MONGODB_PASSWORD)@mongo-file-service:27017/?authMechanism=DEFAULT
         envFrom:
         - configMapRef:
             name: file-configmap
