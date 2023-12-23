@@ -60,7 +60,7 @@ metadata:
   namespace: development
 data:
   DATABASE_NAME: file
-  MINIO_ENDPOINT: https://minio-api.bright-resume.com
+  MINIO_ENDPOINT: minio-api.bright-resume.com
   MINIO_PORT: '443'
   MINIO_ACCESS_KEY: root
   MINIO_BUCKET: development
