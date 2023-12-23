@@ -41,6 +41,6 @@ metadata:
   name: gateway-configmap
   namespace: development
 data:
-  RESUME_URL: resume-service:80
-  AUTH_URL: auth-service:80
-  FILE_URL: file-service:80
+  RESUME_URL: resume-service:80/graphql
+  AUTH_URL: auth-service:80/graphql
+  FILE_URL: file-service:80/graphql
