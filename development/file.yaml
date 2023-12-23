@@ -64,5 +64,5 @@ data:
   MINIO_PORT: '443'
   MINIO_ACCESS_KEY: root
   MINIO_BUCKET: development
-  REDIS_HOST: mongo-file-service
+  REDIS_HOST: redis-file-service
   REDIS_PORT: '6379'
