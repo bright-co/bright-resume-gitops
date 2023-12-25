@@ -1,0 +1,109 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: minio
+  namespace: minio
+  labels:
+    app: minio
+spec:
+  serviceName: minio-service-headless
+  replicas: 1
+  selector:
+    matchLabels:
+      app: minio
+  template:
+    metadata:
+      name: minio
+      labels:
+        app: minio
+    spec:
+      containers:
+        - name: minio
+          image: quay.io/minio/minio:latest
+          env:
+          - name: MINIO_ROOT_USER
+            value: root
+          - name: MINIO_BROWSER_LOGIN_ANIMATION
+            value: 'off'
+          - name: MINIO_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: minio-password
+                key: password
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            httpGet:
+              path: /minio/health/live
+              port: 9000
+            initialDelaySeconds: 120
+            periodSeconds: 20
+          readinessProbe:
+            httpGet:
+              path: /minio/health/ready
+              port: 9000
+            initialDelaySeconds: 120
+            periodSeconds: 20
+          volumeMounts:
+            - mountPath: /data
+              name: minio-data
+          command:
+            - /bin/bash
+            - -c
+          args:
+              - minio server /data --console-address :9090
+      restartPolicy: Always
+      volumes:
+      - name: minio-data
+        persistentVolumeClaim:
+          claimName: minio-data-pvc
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: minio-data-pvc
+  namespace: minio
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 15Gi
+  volumeName: minio-pv
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: minio-service
+  namespace: minio
+spec:
+  selector:
+    app: minio
+  ports:
+    - protocol: TCP
+      port: 9000
+      targetPort: 9000
+      name: s3
+    - protocol: TCP
+      port: 9090
+      targetPort: 9090
+      name: console
+  clusterIP: None
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: minio-service-headless
+  namespace: minio
+spec:
+  selector:
+    app: minio
+  ports:
+    - protocol: TCP
+      port: 9000
+      targetPort: 9000
+      name: s3
+    - protocol: TCP
+      port: 9090
+      targetPort: 9090
+      name: console
+  clusterIP: None
