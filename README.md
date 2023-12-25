@@ -26,24 +26,101 @@ Make sure your Kubernetes cluster is set up and configured correctly. Execute th
 
 ```bash
 
-# Installing ArgoCD
-kubectl create namespace argocd
-kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+# Installing ingress-nginx
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.9.4/deploy/static/provider/cloud/deploy.yaml
+
 
 # Creating namespace for each environment
 kubectl create namespace development
 kubectl create namespace staging
 kubectl create namespace production
 
+# Creating namespace for minio
+kubectl create namespace minio
+
+## Creating secrets 
+kubectl create secret generic minio-password --from-literal=password=<****> -n=minio
+
+kubectl create secret generic mongo-resume-password --from-literal=password=<****> -n=development
+kubectl create secret generic mongo-auth-password --from-literal=password=<****> -n=development
+kubectl create secret generic mongo-file-password --from-literal=password=<****> -n=development
+kubectl create secret generic postgres-cms-password --from-literal=password=<****> -n=development
+kubectl create secret generic jwt-secret --from-literal=secret=<****> -n=development
+kubectl create secret generic minio-password --from-literal=password=$(kubectl get secret --namespace minio minio-password -o jsonpath="{.data.password}" | base64 --decode) -n=development
+
+
+kubectl create secret generic cms-keys --from-literal=keys=<****>,<****>,<****>,<****>  -n=development
+kubectl create secret generic cms-token-salt --from-literal=salt=<****> -n=development
+kubectl create secret generic cms-admin-jwt-secret --from-literal=secret=<****> -n=development
+kubectl create secret generic cms-transfer-token-salt --from-literal=salt=<****> -n=development
+kubectl create secret generic cms-jwt-secret --from-literal=secret=<****> -n=development
+kubectl create secret generic cms-api-token-salt --from-literal=salt=<****> -n=development
+
+
+kubectl create secret generic mongo-resume-password --from-literal=password=<****> -n=staging
+kubectl create secret generic mongo-auth-password --from-literal=password=<****> -n=staging
+kubectl create secret generic mongo-file-password --from-literal=password=<****> -n=staging
+kubectl create secret generic postgres-cms-password --from-literal=password=<****> -n=staging
+kubectl create secret generic jwt-secret --from-literal=secret=<****> -n=staging
+kubectl create secret generic minio-password --from-literal=password=$(kubectl get secret --namespace minio minio-password -o jsonpath="{.data.password}" | base64 --decode) -n=staging
+
+kubectl create secret generic cms-keys --from-literal=keys=<****>,<****>,<****>,<****>  -n=staging
+kubectl create secret generic cms-token-salt --from-literal=salt=<****> -n=staging
+kubectl create secret generic cms-admin-jwt-secret --from-literal=secret=<****> -n=staging
+kubectl create secret generic cms-transfer-token-salt --from-literal=salt=<****> -n=staging
+kubectl create secret generic cms-jwt-secret --from-literal=secret=<****> -n=staging
+kubectl create secret generic cms-api-token-salt --from-literal=salt=<****> -n=staging
+
+
+kubectl create secret generic mongo-resume-password --from-literal=password=<****> -n=production
+kubectl create secret generic mongo-auth-password --from-literal=password=<****> -n=production
+kubectl create secret generic mongo-file-password --from-literal=password=<****> -n=production
+kubectl create secret generic postgres-cms-password --from-literal=password=<****> -n=production
+kubectl create secret generic jwt-secret --from-literal=secret=<****> -n=production
+kubectl create secret generic minio-password --from-literal=password=$(kubectl get secret --namespace minio minio-password -o jsonpath="{.data.password}" | base64 --decode) -n=production
+
+kubectl create secret generic cms-keys --from-literal=keys=<****>,<****>,<****>,<****>  -n=production
+kubectl create secret generic cms-token-salt --from-literal=salt=<****> -n=production
+kubectl create secret generic cms-admin-jwt-secret --from-literal=secret=<****> -n=production
+kubectl create secret generic cms-transfer-token-salt --from-literal=salt=<****> -n=production
+kubectl create secret generic cms-jwt-secret --from-literal=secret=<****> -n=production
+kubectl create secret generic cms-api-token-salt --from-literal=salt=<****> -n=production
+
+# Installing Cert Manager
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.13.3/cert-manager.yaml
+
+# Creating persistance volume for minio
+kubectl apply -f ./minio/persistent-volume.yaml
+
+# Creating minio
+kubectl apply -f ./minio/minio.yaml
+kubectl apply -f ./minio/ingress.yaml
+
 # Creating persistance volume for each environment
 kubectl apply -f ./development-pv/persistent-volume-mongo-file.yaml
+kubectl apply -f ./development-pv/persistent-volume-mongo-auth.yaml
+kubectl apply -f ./development-pv/persistent-volume-mongo-resume.yaml
+kubectl apply -f ./development-pv/persistent-volume-postgres-cms.yaml
 
-## creating secrets
-kubectl create secret generic mongo-resume-password --from-literal=password=<YOUR_PASSWORD> -n=development
-kubectl create secret generic jwt-secret --from-literal=secret=<YOUR_SECRET> -n=development
+kubectl apply -f ./staging-pv/persistent-volume-mongo-file.yaml
+kubectl apply -f ./staging-pv/persistent-volume-mongo-auth.yaml
+kubectl apply -f ./staging-pv/persistent-volume-mongo-resume.yaml
+kubectl apply -f ./staging-pv/persistent-volume-postgres-cms.yaml
 
-## creating argocd applications
-kubectl apply -f ./argocd.develop.yaml
+kubectl apply -f ./production-pv/persistent-volume-mongo-file.yaml
+kubectl apply -f ./production-pv/persistent-volume-mongo-auth.yaml
+kubectl apply -f ./production-pv/persistent-volume-mongo-resume.yaml
+kubectl apply -f ./production-pv/persistent-volume-postgres-cms.yaml
+
+# Installing ArgoCD
+kubectl create namespace argocd
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+kubectl apply -f ./minio/ingress.yaml
+
+## Creating ArgoCD applications
+kubectl apply -f ./argocd/argocd.development.yaml
+kubectl apply -f ./argocd/argocd.staging.yaml
+kubectl apply -f ./argocd/argocd.production.yaml
 ```
 
 
