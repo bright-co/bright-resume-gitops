@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: redis-file
+  namespace: staging
+spec:
+  serviceName: redis-file-service-headless
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis-file
+  template:
+    metadata:
+      labels:
+        app: redis-file
+    spec:
+      containers:
+      - name: redis-file
+        image: redis:latest
+        ports:
+        - containerPort: 6379
+          name: redis
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-file-service
+  namespace: staging
+spec:
+  selector:
+    app: redis-file
+  ports:
+    - protocol: TCP
+      port: 6379
+      targetPort: 6379
+  clusterIP: None
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-file-service-headless
+  namespace: staging
+spec:
+  selector:
+    app: redis-file
+  ports:
+    - protocol: TCP
+      port: 6379
+      targetPort: 6379
+  clusterIP: None

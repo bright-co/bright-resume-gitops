@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: file-deployment
+  namespace: staging
+spec:
+  selector:
+    matchLabels:
+      app: file
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: file
+    spec:
+      containers:
+      - name: file
+        image: ghcr.io/bright-co/bright-resume-back-file:initial
+        ports:
+          - containerPort: 4003
+        env:
+        - name: MONGODB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mongo-file-password
+              key: password
+        - name: MINIO_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: minio-password
+              key: password
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: jwt-secret
+              key: secret
+        - name: MONGO_URL
+          value: mongodb://root:$(MONGODB_PASSWORD)@mongo-file-service:27017/?authMechanism=DEFAULT
+        envFrom:
+        - configMapRef:
+            name: file-configmap
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: file-service
+  namespace: staging
+spec:
+  selector:
+    app: file
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 4003
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: file-configmap
+  namespace: staging
+data:
+  DATABASE_NAME: file
+  MINIO_ENDPOINT: minio-api.bright-resume.com
+  MINIO_PORT: '443'
+  MINIO_ACCESS_KEY: root
+  MINIO_BUCKET: staging
+  REDIS_HOST: redis-file-service
+  REDIS_PORT: '6379'
