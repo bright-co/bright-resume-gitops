@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd-production
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/bright-co/bright-resume-gitops.git
+    targetRevision: HEAD
+    path: production
+  destination: 
+    server: https://kubernetes.default.svc
+    namespace: production
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+    automated:
+      selfHeal: true
+      prune: true
