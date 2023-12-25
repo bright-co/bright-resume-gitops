@@ -8,4 +8,4 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: /k8s-postgres-cms-pv-develop
+    path: /k8s-postgres-cms-pv-development

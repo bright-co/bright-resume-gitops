@@ -9,13 +9,13 @@ spec:
     - cms-development.bright-resume.com
   secretName: index-certificate-secret
   issuerRef:
-    name: index-cluster-issuer
+    name: index-cluster-issuer-development
     kind: ClusterIssuer
 ---
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
-  name: index-cluster-issuer
+  name: index-cluster-issuer-development
   namespace: development
 spec:
   acme:

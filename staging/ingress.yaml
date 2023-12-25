@@ -9,13 +9,13 @@ spec:
     - cms-staging.bright-resume.com
   secretName: index-certificate-secret
   issuerRef:
-    name: index-cluster-issuer
+    name: index-cluster-issuer-staging
     kind: ClusterIssuer
 ---
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
-  name: index-cluster-issuer
+  name: index-cluster-issuer-staging
   namespace: staging
 spec:
   acme:
