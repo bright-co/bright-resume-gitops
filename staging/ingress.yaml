@@ -7,6 +7,7 @@ spec:
   dnsNames:
     - back-staging.bright-resume.com
     - cms-staging.bright-resume.com
+    - staging.bright-resume.com
   secretName: index-certificate-secret
   issuerRef:
     name: index-cluster-issuer-staging
@@ -43,6 +44,7 @@ spec:
   - hosts:
     - back-staging.bright-resume.com
     - cms-staging.bright-resume.com
+    - staging.bright-resume.com
     secretName: index-certificate-secret
   rules:
   - host: back-staging.bright-resume.com
@@ -63,5 +65,15 @@ spec:
         backend:
           service: 
             name: cms-service
+            port: 
+              number: 80
+  - host: staging.bright-resume.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service: 
+            name: web-service
             port: 
               number: 80
