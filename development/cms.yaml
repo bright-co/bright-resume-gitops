@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: cms
-        image: ghcr.io/bright-co/bright-resume-back-cms:initial
+        image: ghcr.io/bright-co/bright-resume-back-cms:881267284c417a6ac05483d31c803eea794546ce
         ports:
           - containerPort: 4004
         env:
