@@ -7,6 +7,7 @@ spec:
   dnsNames:
     - back-development.bright-resume.com
     - cms-development.bright-resume.com
+    - development.bright-resume.com
   secretName: index-certificate-secret
   issuerRef:
     name: index-cluster-issuer-development
@@ -43,6 +44,7 @@ spec:
   - hosts:
     - back-development.bright-resume.com
     - cms-development.bright-resume.com
+    - development.bright-resume.com
     secretName: index-certificate-secret
   rules:
   - host: back-development.bright-resume.com
@@ -53,6 +55,16 @@ spec:
         backend:
           service: 
             name: gateway-service
+            port: 
+              number: 80
+  - host: development.bright-resume.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service: 
+            name: web-service
             port: 
               number: 80
   - host: cms-development.bright-resume.com
