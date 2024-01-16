@@ -38,8 +38,10 @@ kubectl create namespace production
 # Creating namespace for minio
 kubectl create namespace minio
 
+
 ## Creating secrets 
 kubectl create secret generic minio-password --from-literal=password=<****> -n=minio
+
 
 kubectl create secret generic mongo-resume-password --from-literal=password=<****> -n=development
 kubectl create secret generic mongo-auth-password --from-literal=password=<****> -n=development
@@ -47,8 +49,9 @@ kubectl create secret generic mongo-file-password --from-literal=password=<****>
 kubectl create secret generic postgres-cms-password --from-literal=password=<****> -n=development
 kubectl create secret generic jwt-secret --from-literal=secret=<****> -n=development
 kubectl create secret generic minio-password --from-literal=password=$(kubectl get secret --namespace minio minio-password -o jsonpath="{.data.password}" | base64 --decode) -n=development
-
-
+kubectl create secret generic google-client-secret --from-literal=secret=<****> -n=development
+kubectl create secret generic github-client-secret --from-literal=secret=<****> -n=development
+kubectl create secret generic linkedin-client-secret --from-literal=secret=<****> -n=development
 kubectl create secret generic cms-keys --from-literal=keys=<****>,<****>,<****>,<****>  -n=development
 kubectl create secret generic cms-token-salt --from-literal=salt=<****> -n=development
 kubectl create secret generic cms-admin-jwt-secret --from-literal=secret=<****> -n=development
@@ -63,7 +66,9 @@ kubectl create secret generic mongo-file-password --from-literal=password=<****>
 kubectl create secret generic postgres-cms-password --from-literal=password=<****> -n=staging
 kubectl create secret generic jwt-secret --from-literal=secret=<****> -n=staging
 kubectl create secret generic minio-password --from-literal=password=$(kubectl get secret --namespace minio minio-password -o jsonpath="{.data.password}" | base64 --decode) -n=staging
-
+kubectl create secret generic google-client-secret --from-literal=secret=<****> -n=staging
+kubectl create secret generic github-client-secret --from-literal=secret=<****> -n=staging
+kubectl create secret generic linkedin-client-secret --from-literal=secret=<****> -n=staging
 kubectl create secret generic cms-keys --from-literal=keys=<****>,<****>,<****>,<****>  -n=staging
 kubectl create secret generic cms-token-salt --from-literal=salt=<****> -n=staging
 kubectl create secret generic cms-admin-jwt-secret --from-literal=secret=<****> -n=staging
@@ -78,7 +83,9 @@ kubectl create secret generic mongo-file-password --from-literal=password=<****>
 kubectl create secret generic postgres-cms-password --from-literal=password=<****> -n=production
 kubectl create secret generic jwt-secret --from-literal=secret=<****> -n=production
 kubectl create secret generic minio-password --from-literal=password=$(kubectl get secret --namespace minio minio-password -o jsonpath="{.data.password}" | base64 --decode) -n=production
-
+kubectl create secret generic google-client-secret --from-literal=secret=<****> -n=production
+kubectl create secret generic github-client-secret --from-literal=secret=<****> -n=production
+kubectl create secret generic linkedin-client-secret --from-literal=secret=<****> -n=production
 kubectl create secret generic cms-keys --from-literal=keys=<****>,<****>,<****>,<****>  -n=production
 kubectl create secret generic cms-token-salt --from-literal=salt=<****> -n=production
 kubectl create secret generic cms-admin-jwt-secret --from-literal=secret=<****> -n=production

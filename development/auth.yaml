@@ -24,6 +24,21 @@ spec:
             secretKeyRef:
               name: mongo-auth-password
               key: password
+        - name: GOOGLE_CLIENT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: google-client-secret
+              key: secret
+        - name: GITHUB_CLIENT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: github-client-secret
+              key: secret
+        - name: LINKEDIN_CLIENT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: linkedin-client-secret
+              key: secret
         - name: JWT_SECRET
           valueFrom:
             secretKeyRef:
@@ -55,6 +70,8 @@ metadata:
   namespace: development
 data:
   DATABASE_NAME: auth
-  GOOGLE_CLIENT_ID: GOOGLE_CLIENT_ID
-  GOOGLE_CLIENT_SECRET: GOOGLE_CLIENT_SECRET
-  SERVER_URL: SERVER_URL
+  SERVER_URL: https://auth-development.bright-resume.com
+  CLIENT_AUTH_URL: https://development.bright-resume.com/login
+  GOOGLE_CLIENT_ID: 437856812561-4s350dtpl84e0emjqce0mgftd9d8m7nh.apps.googleusercontent.com
+  GITHUB_CLIENT_ID: 866f10fb0baf4d5d1c11
+  LINKEDIN_CLIENT_ID: 77ms4asm9fy0ee
