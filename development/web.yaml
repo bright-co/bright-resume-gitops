@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: web
-        image: ghcr.io/bright-co/bright-resume-web:01ec8b09c7a0ee57f085dbc92e67a0dfc6ef28be
+        image: ghcr.io/bright-co/bright-resume-web:f6143c2a705f704bfc8e0470cd0832cd873d364f
         ports:
         - containerPort: 3000
 ---
