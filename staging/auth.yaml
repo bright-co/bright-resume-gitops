@@ -71,7 +71,7 @@ metadata:
 data:
   DATABASE_NAME: auth
   SERVER_URL: https://auth-staging.bright-resume.com
-  CLIENT_AUTH_URL: https://staging.bright-resume.com/login
+  CLIENT_AUTH_URL: https://staging.bright-resume.com/login/success
   GOOGLE_CLIENT_ID: 437856812561-4s350dtpl84e0emjqce0mgftd9d8m7nh.apps.googleusercontent.com
   GITHUB_CLIENT_ID: 3985db06a13e69d0c493
   LINKEDIN_CLIENT_ID: 77ms4asm9fy0ee
