@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: auth
-        image: ghcr.io/bright-co/bright-resume-back-auth:5c500b07df07e1217038bdd819670a76bf767f43
+        image: ghcr.io/bright-co/bright-resume-back-auth:882e1051e21622e7ce8105754e29b98ae18324de
         ports:
           - containerPort: 4001
         env:
