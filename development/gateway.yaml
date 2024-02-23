@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: gateway
-        image: ghcr.io/bright-co/bright-resume-back-gateway:882e1051e21622e7ce8105754e29b98ae18324de
+        image: ghcr.io/bright-co/bright-resume-back-gateway:fa049fbb5546fc79a5186c1eb1fa600f22aecb12
         ports:
           - containerPort: 4000
         envFrom:
