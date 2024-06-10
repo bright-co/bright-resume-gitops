@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chatbot-deployment
+  namespace: development
+spec:
+  selector:
+    matchLabels:
+      app: chatbot
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: chatbot
+    spec:
+      containers:
+      - name: chatbot
+        image: ghcr.io/bright-co/bright-resume-chatbot:733c474b47fc8549b70229ec5eed4a05707dc67e
+        ports:
+        - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: chatbot-service
+  namespace: development
+spec:
+  selector:
+    app: chatbot
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 3000
