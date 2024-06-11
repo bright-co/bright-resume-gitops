@@ -59,6 +59,13 @@ spec:
             name: gateway-service
             port: 
               number: 80
+      - path: /auth
+        pathType: Prefix
+        backend:
+          service: 
+            name: auth-service
+            port: 
+              number: 80
   - host: cms-development.bright-resume.com
     http:
       paths:
