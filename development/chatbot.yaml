@@ -18,6 +18,9 @@ spec:
         image: ghcr.io/bright-co/bright-resume-chatbot:675d4ab403e73da39249ea0dd472014520f78f1a
         ports:
         - containerPort: 3000
+        envFrom:
+        - configMapRef:
+            name: chatbot-configmap
 ---
 apiVersion: v1
 kind: Service
