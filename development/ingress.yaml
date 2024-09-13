@@ -6,8 +6,6 @@ metadata:
 spec:
   dnsNames:
     - back-development.bright-resume.com
-    - cms-development.bright-resume.com
-    - auth-development.bright-resume.com
     - development.bright-resume.com
   secretName: index-certificate-secret
   issuerRef:
@@ -44,8 +42,6 @@ spec:
   tls:
   - hosts:
     - back-development.bright-resume.com
-    - cms-development.bright-resume.com
-    - auth-development.bright-resume.com
     - development.bright-resume.com
     secretName: index-certificate-secret
   rules:
@@ -53,33 +49,6 @@ spec:
     http:
       paths:
       - path: /auth
-        pathType: Prefix
-        backend:
-          service: 
-            name: auth-service
-            port: 
-              number: 80
-      - path: /
-        pathType: Prefix
-        backend:
-          service: 
-            name: gateway-service
-            port: 
-              number: 80
-  - host: cms-development.bright-resume.com
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service: 
-            name: cms-service
-            port: 
-              number: 80
-  - host: auth-development.bright-resume.com
-    http:
-      paths:
-      - path: /
         pathType: Prefix
         backend:
           service: 

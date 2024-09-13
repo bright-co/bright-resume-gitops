@@ -1,27 +1,27 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: mongo-auth
+  name: mongo-back
   namespace: development
 spec:
-  serviceName: mongo-auth-service-headless
+  serviceName: mongo-back-service-headless
   replicas: 1
   selector:
     matchLabels:
-      app: mongo-auth
+      app: mongo-back
   template:
     metadata:
       labels:
-        app: mongo-auth
+        app: mongo-back
     spec:
       containers:
-      - name: mongo-auth
+      - name: mongo-back
         image: mongo:latest
         ports:
         - containerPort: 27017
           name: mongo
         volumeMounts:
-        - name: mongo-auth-data
+        - name: mongo-back-data
           mountPath: /data/db
         env:
         - name: MONGO_INITDB_ROOT_USERNAME
@@ -29,17 +29,17 @@ spec:
         - name: MONGO_INITDB_ROOT_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: mongo-auth-password
+              name: mongo-back-password
               key: password
       volumes:
-      - name: mongo-auth-data
+      - name: mongo-back-data
         persistentVolumeClaim:
-          claimName: mongo-auth-data-pvc
+          claimName: mongo-back-data-pvc
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: mongo-auth-data-pvc
+  name: mongo-back-data-pvc
   namespace: development
 spec:
   accessModes:
@@ -47,16 +47,16 @@ spec:
   resources:
     requests:
       storage: 3Gi
-  volumeName: mongo-auth-pv-development
+  volumeName: mongo-back-pv-development
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: mongo-auth-service
+  name: mongo-back-service
   namespace: development
 spec:
   selector:
-    app: mongo-auth
+    app: mongo-back
   ports:
     - protocol: TCP
       port: 27017
@@ -66,11 +66,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: mongo-auth-service-headless
+  name: mongo-back-service-headless
   namespace: development
 spec:
   selector:
-    app: mongo-auth
+    app: mongo-back
   ports:
     - protocol: TCP
       port: 27017

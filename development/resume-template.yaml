@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: resume-template-deployment
+  namespace: development
+spec:
+  selector:
+    matchLabels:
+      app: resume-template
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: resume-template
+    spec:
+      containers:
+      - name: resume-template
+        image: ghcr.io/bright-co/bright-resume-resume-template:295def617de552d278ba312f721727581817561e
+        ports:
+        - containerPort: 3000
+        env:
+        - name: MONGODB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mongo-back-password
+              key: password
+        - name: MONGO_URL
+          value: mongodb://root:$(MONGODB_PASSWORD)@mongo-back-service:27017/?backMechanism=DEFAULT
+        envFrom:
+        - configMapRef:
+            name: resume-template-configmap
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: resume-template-service
+  namespace: development
+spec:
+  selector:
+    app: resume-template
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 3000
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: resume-template-configmap
+  namespace: development
+data:
+  MODE: develop
+  DATABASE_NAME: bright-resume

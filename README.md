@@ -42,7 +42,7 @@ kubectl create namespace minio
 ## Creating secrets 
 kubectl create secret generic minio-password --from-literal=password=<****> -n=minio
 
-
+kubectl create secret generic mongo-back-password --from-literal=password=<****> -n=development
 kubectl create secret generic mongo-resume-password --from-literal=password=<****> -n=development
 kubectl create secret generic mongo-auth-password --from-literal=password=<****> -n=development
 kubectl create secret generic mongo-file-password --from-literal=password=<****> -n=development
@@ -60,6 +60,7 @@ kubectl create secret generic cms-jwt-secret --from-literal=secret=<****> -n=dev
 kubectl create secret generic cms-api-token-salt --from-literal=salt=<****> -n=development
 
 
+kubectl create secret generic mongo-back-password --from-literal=password=<****> -n=staging
 kubectl create secret generic mongo-resume-password --from-literal=password=<****> -n=staging
 kubectl create secret generic mongo-auth-password --from-literal=password=<****> -n=staging
 kubectl create secret generic mongo-file-password --from-literal=password=<****> -n=staging
@@ -76,7 +77,7 @@ kubectl create secret generic cms-transfer-token-salt --from-literal=salt=<****>
 kubectl create secret generic cms-jwt-secret --from-literal=secret=<****> -n=staging
 kubectl create secret generic cms-api-token-salt --from-literal=salt=<****> -n=staging
 
-
+kubectl create secret generic mongo-back-password --from-literal=password=<****> -n=production
 kubectl create secret generic mongo-resume-password --from-literal=password=<****> -n=production
 kubectl create secret generic mongo-auth-password --from-literal=password=<****> -n=production
 kubectl create secret generic mongo-file-password --from-literal=password=<****> -n=production
@@ -105,6 +106,7 @@ kubectl apply -f ./minio/ingress.yaml
 
 # Creating persistance volume for each environment
 kubectl apply -f ./development-pv/persistent-volume-mongo-file.yaml
+kubectl apply -f ./development-pv/persistent-volume-mongo-back.yaml
 kubectl apply -f ./development-pv/persistent-volume-mongo-auth.yaml
 kubectl apply -f ./development-pv/persistent-volume-mongo-resume.yaml
 kubectl apply -f ./development-pv/persistent-volume-postgres-cms.yaml
