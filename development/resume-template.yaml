@@ -25,7 +25,7 @@ spec:
               name: mongo-back-password
               key: password
         - name: MONGO_URL
-          value: mongodb://root:$(MONGODB_PASSWORD)@mongo-back-service:27017/?backMechanism=DEFAULT
+          value: mongodb://root:$(MONGODB_PASSWORD)@mongo-back-service:27017/?authMechanism=DEFAULT
         envFrom:
         - configMapRef:
             name: resume-template-configmap

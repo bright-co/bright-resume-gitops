@@ -50,7 +50,7 @@ spec:
               name: jwt-secret
               key: secret
         - name: MONGO_URL
-          value: mongodb://root:$(MONGODB_PASSWORD)@mongo-back-service:27017/?backMechanism=DEFAULT
+          value: mongodb://root:$(MONGODB_PASSWORD)@mongo-back-service:27017/?authMechanism=DEFAULT
         envFrom:
         - configMapRef:
             name: back-configmap
