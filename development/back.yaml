@@ -86,4 +86,4 @@ data:
   MINIO_BUCKET: development
   REDIS_HOST: redis-service
   REDIS_PORT: '6379'
-  RESUME_URL: resume-template-service:80
+  RESUME_URL: http://resume-template-service:80
