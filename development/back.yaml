@@ -87,4 +87,4 @@ data:
   REDIS_HOST: redis-service
   REDIS_PORT: '6379'
   RESUME_URL: http://resume-template-service:80
-  PUPPETEER_EXECUTABLE_PATH: /usr/bin/chromium-browser
+  PUPPETEER_EXECUTABLE_PATH: /usr/bin/google-chrome-stable
