@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: back-deployment
+  name: back-pdf-deployment
   namespace: development
 spec:
   selector:
     matchLabels:
-      app: back
+      app: back-pdf
   replicas: 1
   template:
     metadata:
       labels:
-        app: back
+        app: back-pdf
     spec:
       containers:
-      - name: back
+      - name: back-pdf
         image: ghcr.io/bright-co/bright-resume-back-pdf:c85c8946fc62665d8599ff88c5bcf7dae739d73a
         ports:
           - containerPort: 4001
@@ -58,7 +58,7 @@ spec:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: back-configmap
+  name: back-pdf-configmap
   namespace: development
 data:
   DATABASE_NAME: bright-resume
