@@ -76,7 +76,7 @@ metadata:
 data:
   DATABASE_NAME: bright-resume
   BACK_URL: https://back-development.bright-resume.com
-  CLIENT_AUTH_URL: https://development.bright-resume.com/back/sign-in-oauth
+  CLIENT_AUTH_URL: https://development.bright-resume.com/auth/sign-in-oauth
   GOOGLE_CLIENT_ID: 437856812561-4s350dtpl84e0emjqce0mgftd9d8m7nh.apps.googleusercontent.com
   GITHUB_CLIENT_ID: 866f10fb0baf4d5d1c11
   LINKEDIN_CLIENT_ID: 77ms4asm9fy0ee
