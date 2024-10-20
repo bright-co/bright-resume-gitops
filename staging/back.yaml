@@ -78,7 +78,7 @@ data:
   BACK_URL: https://back-staging.bright-resume.com
   CLIENT_AUTH_URL: https://staging.bright-resume.com/auth/sign-in-oauth
   GOOGLE_CLIENT_ID: 437856812561-4s350dtpl84e0emjqce0mgftd9d8m7nh.apps.googleusercontent.com
-  GITHUB_CLIENT_ID: 866f10fb0baf4d5d1c11
+  GITHUB_CLIENT_ID: 3985db06a13e69d0c493
   LINKEDIN_CLIENT_ID: 77ms4asm9fy0ee
   MINIO_ENDPOINT: minio-api.bright-resume.com
   MINIO_PORT: '443'
