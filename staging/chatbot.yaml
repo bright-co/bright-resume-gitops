@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: chatbot
-        image: ghcr.io/bright-co/bright-resume-chatbot:e5697a762f166bf13bf8e6b5fbe9848bcb7cdf62
+        image: ghcr.io/bright-co/bright-resume-chatbot:1e73645654750c4f8176008e7d6272aafb5948dc
         ports:
         - containerPort: 3000
         envFrom:
