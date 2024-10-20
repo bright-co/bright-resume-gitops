@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: back-pdf
-        image: ghcr.io/bright-co/bright-resume-back-pdf:e5697a762f166bf13bf8e6b5fbe9848bcb7cdf62
+        image: ghcr.io/bright-co/bright-resume-back-pdf:80eb78b3e248d879a61a553aac4c3e366028cbfa
         ports:
           - containerPort: 4001
         env:
