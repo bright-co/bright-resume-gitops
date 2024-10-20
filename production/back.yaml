@@ -1,0 +1,90 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: back-deployment
+  namespace: production
+spec:
+  selector:
+    matchLabels:
+      app: back
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: back
+    spec:
+      containers:
+      - name: back
+        image: ghcr.io/bright-co/bright-resume-back:e5697a762f166bf13bf8e6b5fbe9848bcb7cdf62
+        ports:
+          - containerPort: 4000
+        env:
+        - name: MONGODB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mongo-back-password
+              key: password
+        - name: GOOGLE_CLIENT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: google-client-secret
+              key: secret
+        - name: GITHUB_CLIENT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: github-client-secret
+              key: secret
+        - name: LINKEDIN_CLIENT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: linkedin-client-secret
+              key: secret
+        - name: MINIO_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: minio-password
+              key: password
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: jwt-secret
+              key: secret
+        - name: MONGO_URL
+          value: mongodb://root:$(MONGODB_PASSWORD)@mongo-back-service:27017/?authMechanism=DEFAULT
+        envFrom:
+        - configMapRef:
+            name: back-configmap
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: back-service
+  namespace: production
+spec:
+  selector:
+    app: back
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 4000
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: back-configmap
+  namespace: production
+data:
+  DATABASE_NAME: bright-resume
+  BACK_URL: https://back.bright-resume.com
+  CLIENT_AUTH_URL: https://bright-resume.com/auth/sign-in-oauth
+  GOOGLE_CLIENT_ID: 437856812561-4s350dtpl84e0emjqce0mgftd9d8m7nh.apps.googleusercontent.com
+  GITHUB_CLIENT_ID: 866f10fb0baf4d5d1c11
+  LINKEDIN_CLIENT_ID: 77ms4asm9fy0ee
+  MINIO_ENDPOINT: minio-api.bright-resume.com
+  MINIO_PORT: '443'
+  MINIO_ACCESS_KEY: root
+  MINIO_BUCKET: production
+  REDIS_HOST: redis-service
+  REDIS_PORT: '6379'
+  RESUME_URL: http://resume-template-service:80
+  PUPPETEER_EXECUTABLE_PATH: /usr/bin/google-chrome-stable

@@ -112,11 +112,13 @@ kubectl apply -f ./development-pv/persistent-volume-mongo-resume.yaml
 kubectl apply -f ./development-pv/persistent-volume-postgres-cms.yaml
 
 kubectl apply -f ./staging-pv/persistent-volume-mongo-file.yaml
+kubectl apply -f ./staging-pv/persistent-volume-mongo-back.yaml
 kubectl apply -f ./staging-pv/persistent-volume-mongo-auth.yaml
 kubectl apply -f ./staging-pv/persistent-volume-mongo-resume.yaml
 kubectl apply -f ./staging-pv/persistent-volume-postgres-cms.yaml
 
 kubectl apply -f ./production-pv/persistent-volume-mongo-file.yaml
+kubectl apply -f ./production-pv/persistent-volume-mongo-back.yaml
 kubectl apply -f ./production-pv/persistent-volume-mongo-auth.yaml
 kubectl apply -f ./production-pv/persistent-volume-mongo-resume.yaml
 kubectl apply -f ./production-pv/persistent-volume-postgres-cms.yaml

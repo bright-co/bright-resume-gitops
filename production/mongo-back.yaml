@@ -1,27 +1,27 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: mongo-file
-  namespace: staging
+  name: mongo-back
+  namespace: production
 spec:
-  serviceName: mongo-file-service-headless
+  serviceName: mongo-back-service-headless
   replicas: 1
   selector:
     matchLabels:
-      app: mongo-file
+      app: mongo-back
   template:
     metadata:
       labels:
-        app: mongo-file
+        app: mongo-back
     spec:
       containers:
-      - name: mongo-file
+      - name: mongo-back
         image: mongo:latest
         ports:
         - containerPort: 27017
           name: mongo
         volumeMounts:
-        - name: mongo-file-data
+        - name: mongo-back-data
           mountPath: /data/db
         env:
         - name: MONGO_INITDB_ROOT_USERNAME
@@ -29,34 +29,34 @@ spec:
         - name: MONGO_INITDB_ROOT_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: mongo-file-password
+              name: mongo-back-password
               key: password
       volumes:
-      - name: mongo-file-data
+      - name: mongo-back-data
         persistentVolumeClaim:
-          claimName: mongo-file-data-pvc
+          claimName: mongo-back-data-pvc
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: mongo-file-data-pvc
-  namespace: staging
+  name: mongo-back-data-pvc
+  namespace: production
 spec:
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
       storage: 3Gi
-  volumeName: mongo-file-pv-staging
+  volumeName: mongo-back-pv-production
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: mongo-file-service
-  namespace: staging
+  name: mongo-back-service
+  namespace: production
 spec:
   selector:
-    app: mongo-file
+    app: mongo-back
   ports:
     - protocol: TCP
       port: 27017
@@ -66,11 +66,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: mongo-file-service-headless
-  namespace: staging
+  name: mongo-back-service-headless
+  namespace: production
 spec:
   selector:
-    app: mongo-file
+    app: mongo-back
   ports:
     - protocol: TCP
       port: 27017

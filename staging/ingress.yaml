@@ -6,8 +6,6 @@ metadata:
 spec:
   dnsNames:
     - back-staging.bright-resume.com
-    - cms-staging.bright-resume.com
-    - auth-staging.bright-resume.com
     - staging.bright-resume.com
   secretName: index-certificate-secret
   issuerRef:
@@ -44,8 +42,6 @@ spec:
   tls:
   - hosts:
     - back-staging.bright-resume.com
-    - cms-staging.bright-resume.com
-    - auth-staging.bright-resume.com
     - staging.bright-resume.com
     secretName: index-certificate-secret
   rules:
@@ -56,27 +52,7 @@ spec:
         pathType: Prefix
         backend:
           service: 
-            name: gateway-service
-            port: 
-              number: 80
-  - host: cms-staging.bright-resume.com
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service: 
-            name: cms-service
-            port: 
-              number: 80
-  - host: auth-staging.bright-resume.com
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service: 
-            name: auth-service
+            name: back-service
             port: 
               number: 80
   - host: staging.bright-resume.com
@@ -86,6 +62,6 @@ spec:
         pathType: Prefix
         backend:
           service: 
-            name: web-service
+            name: chatbot-service
             port: 
               number: 80

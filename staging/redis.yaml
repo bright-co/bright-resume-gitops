@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: redis-file
+  name: redis
   namespace: staging
 spec:
-  serviceName: redis-file-service-headless
+  serviceName: redis-service-headless
   replicas: 1
   selector:
     matchLabels:
-      app: redis-file
+      app: redis
   template:
     metadata:
       labels:
-        app: redis-file
+        app: redis
     spec:
       containers:
-      - name: redis-file
+      - name: redis
         image: redis:latest
         ports:
         - containerPort: 6379
@@ -24,11 +24,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: redis-file-service
+  name: redis-service
   namespace: staging
 spec:
   selector:
-    app: redis-file
+    app: redis
   ports:
     - protocol: TCP
       port: 6379
@@ -38,11 +38,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: redis-file-service-headless
+  name: redis-service-headless
   namespace: staging
 spec:
   selector:
-    app: redis-file
+    app: redis
   ports:
     - protocol: TCP
       port: 6379

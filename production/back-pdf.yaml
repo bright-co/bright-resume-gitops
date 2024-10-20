@@ -1,28 +1,28 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: auth-deployment
-  namespace: staging
+  name: back-pdf-deployment
+  namespace: production
 spec:
   selector:
     matchLabels:
-      app: auth
+      app: back-pdf
   replicas: 1
   template:
     metadata:
       labels:
-        app: auth
+        app: back-pdf
     spec:
       containers:
-      - name: auth
-        image: ghcr.io/bright-co/bright-resume-back-auth:initial
+      - name: back-pdf
+        image: ghcr.io/bright-co/bright-resume-back-pdf:e5697a762f166bf13bf8e6b5fbe9848bcb7cdf62
         ports:
           - containerPort: 4001
         env:
         - name: MONGODB_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: mongo-auth-password
+              name: mongo-back-password
               key: password
         - name: GOOGLE_CLIENT_SECRET
           valueFrom:
@@ -39,39 +39,38 @@ spec:
             secretKeyRef:
               name: linkedin-client-secret
               key: secret
+        - name: MINIO_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: minio-password
+              key: password
         - name: JWT_SECRET
           valueFrom:
             secretKeyRef:
               name: jwt-secret
               key: secret
         - name: MONGO_URL
-          value: mongodb://root:$(MONGODB_PASSWORD)@mongo-auth-service:27017/?authMechanism=DEFAULT
+          value: mongodb://root:$(MONGODB_PASSWORD)@mongo-back-service:27017/?authMechanism=DEFAULT
         envFrom:
         - configMapRef:
-            name: auth-configmap
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: auth-service
-  namespace: staging
-spec:
-  selector:
-    app: auth
-  ports:
-  - port: 80
-    protocol: TCP
-    targetPort: 4001
+            name: back-configmap
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: auth-configmap
-  namespace: staging
+  name: back-pdf-configmap
+  namespace: production
 data:
-  DATABASE_NAME: auth
-  SERVER_URL: https://auth-staging.bright-resume.com
-  CLIENT_AUTH_URL: https://staging.bright-resume.com/login/success
+  DATABASE_NAME: bright-resume
+  BACK_URL: https://back.bright-resume.com
+  CLIENT_AUTH_URL: https://bright-resume.com/auth/sign-in-oauth
   GOOGLE_CLIENT_ID: 437856812561-4s350dtpl84e0emjqce0mgftd9d8m7nh.apps.googleusercontent.com
-  GITHUB_CLIENT_ID: 3985db06a13e69d0c493
+  GITHUB_CLIENT_ID: 866f10fb0baf4d5d1c11
   LINKEDIN_CLIENT_ID: 77ms4asm9fy0ee
+  MINIO_ENDPOINT: minio-api.bright-resume.com
+  MINIO_PORT: '443'
+  MINIO_ACCESS_KEY: root
+  MINIO_BUCKET: production
+  REDIS_HOST: redis-service
+  REDIS_PORT: '6379'
+  PUPPETEER_EXECUTABLE_PATH: /usr/bin/google-chrome-stable
